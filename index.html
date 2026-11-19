@@ -50,13 +50,9 @@
                 <div class="absolute -top-16 -right-16 w-48 h-48 bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-16 -left-16 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                    <i class="ph-fill ph-shield-check"></i> Listas Blindadas Contra Bagunça
-                </div>
-
                 <div class="space-y-2 max-w-xl mx-auto">
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Organize seus grupos sem ninguém apagar a lista</h2>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">Crie os horários, gere um link verdadeiro e exclusivo para os participantes entrarem sozinhos.</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">ListaFácil</h2>
+                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">Crie um evento e gere o link para os participantes.</p>
                 </div>
 
                 <div class="pt-1">
@@ -181,12 +177,12 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Aviso de Horário na Lista</label>
-                        <input type="text" id="ev-warning" value="⚠️ FIQUEM ATENTOS AOS HORÁRIOS!"
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Aviso na Lista (Opcional)</label>
+                        <input type="text" id="ev-warning" value="" placeholder="Ex: Fiquem atentos aos horários!"
                             class="w-full bg-[#09090f] border border-gray-700 rounded-xl px-3.5 py-2 text-xs text-gray-300 outline-none">
                     </div>
 
-                    <button type="submit"
+                    <button type="submit" id="btn-submit-create"
                         class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-amber-500 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-purple-900/40 transition flex items-center justify-center gap-2">
                         <i class="ph-bold ph-sparkle text-lg"></i> Gerar Evento e Links Reais
                     </button>
@@ -202,7 +198,7 @@
                         <i class="ph-fill ph-check-circle"></i>
                     </div>
                     <h2 class="text-xl sm:text-2xl font-extrabold text-white">Links Reais Gerados com Sucesso!</h2>
-                    <p class="text-xs text-gray-400">Basta copiar e enviar no WhatsApp da sua amiga ou do grupo.</p>
+                    <p class="text-xs text-gray-400">Evento salvo na nuvem. Basta copiar e enviar no WhatsApp.</p>
                 </div>
 
                 <div class="bg-[#09090f] p-4 rounded-xl border border-purple-500/35 space-y-3">
@@ -210,7 +206,7 @@
                         <span class="text-xs font-extrabold text-purple-400 flex items-center gap-1.5">
                             <i class="ph-bold ph-users"></i> LINK PARA OS PARTICIPANTES (WHATSAPP)
                         </span>
-                        <p class="text-[11px] text-gray-400 mt-0.5">Quem clicar abre direto na escolha de vagas sem precisar de código.</p>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Quem clicar abre direto na escolha de vagas com sincronização ao vivo.</p>
                     </div>
                     <div class="flex gap-2">
                         <input type="text" id="share-public-url" readonly class="w-full bg-[#13131f] border border-gray-800 rounded-xl px-3 py-2 text-xs text-gray-300 outline-none">
@@ -229,7 +225,7 @@
                 <div class="bg-[#09090f] p-4 rounded-xl border border-amber-500/35 space-y-3">
                     <div>
                         <span class="text-xs font-extrabold text-amber-400 flex items-center gap-1.5">
-                            <i class="ph-bold ph-crown"></i> LINK EXCLUSIVO PARA O ADM (VOCÊ E SUA AMIGA)
+                            <i class="ph-bold ph-crown"></i> LINK EXCLUSIVO PARA O ADM
                         </span>
                         <p class="text-[11px] text-gray-400 mt-0.5">Usa a senha <strong id="links-pin-display" class="text-white"></strong> para gerenciar e copiar a lista final.</p>
                     </div>
@@ -250,15 +246,16 @@
 
         <!-- VIEW 4: TELA DO EVENTO -->
         <section id="view-event" class="hidden space-y-6">
-            <div class="flex items-center justify-between" id="event-top-nav">
-                <!-- Preenchido via JS dependendo se é participante ou ADM -->
-            </div>
+            <div class="flex items-center justify-between" id="event-top-nav"></div>
 
             <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-36 h-36 bg-purple-600/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-                <div class="mb-3">
+                <div class="mb-3 flex items-center justify-between gap-2 flex-wrap">
                     <span id="ev-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Inscrições Abertas
+                    </span>
+                    <span class="text-[11px] text-emerald-400/90 font-semibold flex items-center gap-1">
+                        <i class="ph-fill ph-cloud-check"></i> Sincronizado na nuvem
                     </span>
                 </div>
                 <h2 id="ev-display-title" class="text-xl sm:text-2xl font-extrabold text-white break-words"></h2>
@@ -337,7 +334,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-95 text-white font-extrabold text-sm shadow-lg shadow-purple-900/40 transition">
+                    <button type="submit" id="btn-submit-join" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-95 text-white font-extrabold text-sm shadow-lg shadow-purple-900/40 transition">
                         Confirmar Inscrição na Vaga
                     </button>
                 </form>
@@ -378,7 +375,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO (POP-UP CENTRALIZADO) -->
+    <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="modal-confirm" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-2xl p-6 max-w-sm w-full border border-purple-500/50 space-y-4 text-center">
             <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto text-2xl">
@@ -404,7 +401,7 @@
                 </h3>
                 <button type="button" onclick="closeWhatsappExportModal()" class="text-gray-400 hover:text-white"><i class="ph-bold ph-x text-lg"></i></button>
             </div>
-            <p class="text-xs text-gray-400">A lista foi formatada exatamente no padrão do seu evento:</p>
+            <p class="text-xs text-gray-400">Lista pronta para colar no grupo:</p>
             
             <textarea id="whatsapp-preview-text" readonly rows="10"
                 class="w-full bg-[#09090f] border border-gray-800 rounded-xl p-3 text-xs text-gray-200 font-mono outline-none resize-none"></textarea>
@@ -419,19 +416,71 @@
     </div>
 
     <footer class="py-6 text-center text-xs text-gray-500 border-t border-gray-900 mt-10">
-        ListaFácil &copy; 2026 — Organização de Eventos no WhatsApp
+        ListaFácil &copy; 2026
     </footer>
 
     <script>
+        const DB_URL = 'https://listafacil-d7ec6-default-rtdb.firebaseio.com';
         const STORAGE_KEY = 'listafacil_events_v3';
         let currentEventId = null;
         let isAdminLoggedIn = false;
         let isDirectParticipantLink = false;
+        let syncTimer = null;
 
         function getEventsMap() {
             try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { return {}; }
         }
         function saveEventsMap(map) { localStorage.setItem(STORAGE_KEY, JSON.stringify(map)); }
+
+        async function dbGetEvent(id) {
+            try {
+                const res = await fetch(`${DB_URL}/events/${encodeURIComponent(id)}.json`);
+                if (!res.ok) throw new Error('Falha de rede');
+                return await res.json();
+            } catch (e) {
+                return getEventsMap()[id] || null;
+            }
+        }
+
+        async function dbSaveEvent(ev) {
+            const map = getEventsMap();
+            map[ev.id] = ev;
+            saveEventsMap(map);
+            try {
+                const res = await fetch(`${DB_URL}/events/${encodeURIComponent(ev.id)}.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(ev)
+                });
+                return res.ok;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        async function dbDeleteEvent(id) {
+            const map = getEventsMap();
+            delete map[id];
+            saveEventsMap(map);
+            try {
+                await fetch(`${DB_URL}/events/${encodeURIComponent(id)}.json`, { method: 'DELETE' });
+            } catch (e) {}
+        }
+
+        async function dbGetAllEvents() {
+            const localMap = getEventsMap();
+            try {
+                const res = await fetch(`${DB_URL}/events.json`);
+                if (!res.ok) return localMap;
+                const remoteData = await res.json();
+                if (!remoteData || typeof remoteData !== 'object') return localMap;
+                const merged = { ...localMap, ...remoteData };
+                saveEventsMap(merged);
+                return merged;
+            } catch (e) {
+                return localMap;
+            }
+        }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -485,6 +534,31 @@
             });
         }
 
+        function stopLiveSync() {
+            if (syncTimer) {
+                clearInterval(syncTimer);
+                syncTimer = null;
+            }
+        }
+
+        function startLiveSync(eventId) {
+            stopLiveSync();
+            syncTimer = setInterval(async () => {
+                if (!currentEventId || document.getElementById('view-event').classList.contains('hidden')) return;
+                const fresh = await dbGetEvent(eventId);
+                if (fresh) {
+                    const map = getEventsMap();
+                    const currentSerialized = JSON.stringify(map[eventId] || null);
+                    const freshSerialized = JSON.stringify(fresh);
+                    if (currentSerialized !== freshSerialized) {
+                        map[eventId] = fresh;
+                        saveEventsMap(map);
+                        applyEventToUI(fresh);
+                    }
+                }
+            }, 4000);
+        }
+
         function showView(viewName) {
             ['view-home', 'view-create', 'view-links', 'view-event'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
@@ -492,11 +566,15 @@
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
             document.getElementById('header-actions').innerHTML = '';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (viewName !== 'event') stopLiveSync();
             if (viewName === 'home') renderSavedEventsList();
         }
 
-        function handleCreateEvent(event) {
+        async function handleCreateEvent(event) {
             event.preventDefault();
+            const submitBtn = document.getElementById('btn-submit-create');
+            submitBtn.disabled = true;
+
             const title = document.getElementById('ev-title').value.trim();
             const host = document.getElementById('ev-host').value.trim();
             const sponsor = document.getElementById('ev-sponsor').value.trim();
@@ -533,14 +611,13 @@
                 groups: groupsObj, isOpen: true, createdAt: Date.now()
             };
 
-            const map = getEventsMap();
-            map[eventId] = newEvent;
-            saveEventsMap(map);
+            await dbSaveEvent(newEvent);
 
             currentEventId = eventId;
             isDirectParticipantLink = false;
+            submitBtn.disabled = false;
             renderLinksView(newEvent);
-            showToast('Evento criado com sucesso!');
+            showToast('Evento criado e salvo na nuvem!');
         }
 
         function renderLinksView(ev) {
@@ -564,9 +641,9 @@
             loadEventData(currentEventId);
         }
 
-        function renderSavedEventsList() {
-            const map = getEventsMap();
-            const keys = Object.keys(map).sort((a,b) => map[b].createdAt - map[a].createdAt);
+        async function renderSavedEventsList() {
+            const map = await dbGetAllEvents();
+            const keys = Object.keys(map).sort((a,b) => (map[b].createdAt || 0) - (map[a].createdAt || 0));
             const container = document.getElementById('saved-events-list');
             document.getElementById('saved-events-count').textContent = `${keys.length} eventos`;
 
@@ -593,46 +670,33 @@
         }
 
         function deleteEvent(id) {
-            showConfirmModal("Apagar Evento", "Deseja realmente apagar este evento do seu histórico?", () => {
-                const map = getEventsMap();
-                delete map[id];
-                saveEventsMap(map);
+            showConfirmModal("Apagar Evento", "Deseja realmente apagar este evento?", async () => {
+                await dbDeleteEvent(id);
                 renderSavedEventsList();
                 showToast('Evento apagado.');
             });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
             const evParam = params.get('evento');
             const admParam = params.get('adm') === '1';
 
             if (evParam) {
-                const map = getEventsMap();
-                if (map[evParam]) {
-                    currentEventId = evParam;
-                    isDirectParticipantLink = !admParam;
-                    if (admParam) isAdminLoggedIn = true;
-                    
-                    showView('event');
-                    loadEventData(evParam);
+                currentEventId = evParam;
+                isDirectParticipantLink = !admParam;
+                showView('event');
+                const ev = await loadEventData(evParam);
 
-                    if (admParam) {
-                        promptAdminAccess();
-                    }
-                } else {
-                    showView('home');
+                if (ev && admParam) {
+                    promptAdminAccess();
                 }
             } else {
                 renderSavedEventsList();
             }
         });
 
-        function loadEventData(id) {
-            const map = getEventsMap();
-            const ev = map[id];
-            if (!ev) { showToast('Evento não encontrado.', 'error'); showView('home'); return; }
-
+        function applyEventToUI(ev) {
             const topNav = document.getElementById('event-top-nav');
             if (isDirectParticipantLink && !isAdminLoggedIn) {
                 topNav.innerHTML = `
@@ -695,6 +759,21 @@
             renderGroupsView(ev);
         }
 
+        async function loadEventData(id) {
+            const ev = await dbGetEvent(id);
+            if (!ev) {
+                showToast('Evento não encontrado.', 'error');
+                showView('home');
+                return null;
+            }
+            const map = getEventsMap();
+            map[id] = ev;
+            saveEventsMap(map);
+            applyEventToUI(ev);
+            startLiveSync(id);
+            return ev;
+        }
+
         function setupParticipantIdField(mode) {
             const container = document.getElementById('part-id-container');
             const input = document.getElementById('part-id');
@@ -709,6 +788,7 @@
 
         function populateParticipantGroupSelect(ev) {
             const select = document.getElementById('part-group-select');
+            const prevVal = select.value;
             select.innerHTML = '';
             for (let g = 1; g <= ev.groupsCount; g++) {
                 const grp = ev.groups[g];
@@ -720,16 +800,23 @@
                 if (freeCount === 0) opt.disabled = true;
                 select.appendChild(opt);
             }
+            if (prevVal && select.querySelector(`option[value="${prevVal}"]:not(:disabled)`)) {
+                select.value = prevVal;
+            }
         }
 
         function populateAdminGroupSelect(ev) {
             const select = document.getElementById('adm-add-group');
+            const prevVal = select.value;
             select.innerHTML = '';
             for (let g = 1; g <= ev.groupsCount; g++) {
                 const opt = document.createElement('option');
                 opt.value = g;
                 opt.textContent = `${g}º Grupo (${ev.groups[g].horario})`;
                 select.appendChild(opt);
+            }
+            if (prevVal && select.querySelector(`option[value="${prevVal}"]`)) {
+                select.value = prevVal;
             }
         }
 
@@ -750,7 +837,7 @@
                     slotsHtml += `
                         <div class="flex items-center justify-between bg-[#13131f] border border-gray-800 rounded-xl px-3.5 py-2.5 text-xs">
                             <div class="flex items-center gap-2.5 truncate">
-                                <span class="font-bold text-purple-400 shrink-0">🔍 ${s}️⃣</span>
+                                <span class="font-bold text-purple-400 shrink-0">${s}️⃣</span>
                                 <span class="${isFilled ? 'text-white font-semibold' : 'text-gray-500 italic'} truncate">
                                     ${isFilled ? `${slot.nick}${slot.id ? ` (${slot.id})` : ''}` : 'Vaga Disponível'}
                                 </span>
@@ -775,52 +862,66 @@
             document.getElementById('ev-total-filled').textContent = `${totalFilled} de ${totalSlots} vagas preenchidas`;
         }
 
-        function handleParticipantSubmit(event) {
+        async function handleParticipantSubmit(event) {
             event.preventDefault();
-            const map = getEventsMap();
-            const ev = map[currentEventId];
-            if (!ev || !ev.isOpen) return showToast('Inscrições encerradas.', 'error');
+            const joinBtn = document.getElementById('btn-submit-join');
+            joinBtn.disabled = true;
+
+            const ev = await dbGetEvent(currentEventId);
+            if (!ev || !ev.isOpen) {
+                joinBtn.disabled = false;
+                return showToast('Inscrições encerradas.', 'error');
+            }
 
             const groupNum = parseInt(document.getElementById('part-group-select').value);
             const nick = document.getElementById('part-nick').value.trim();
             const idVal = document.getElementById('part-id').value.trim();
 
-            if (!nick) return showToast('Digite seu nick!', 'error');
-            if (ev.idMode === 'required' && !idVal) return showToast('O ID é obrigatório!', 'error');
+            if (!nick) {
+                joinBtn.disabled = false;
+                return showToast('Digite seu nick!', 'error');
+            }
+            if (ev.idMode === 'required' && !idVal) {
+                joinBtn.disabled = false;
+                return showToast('O ID é obrigatório!', 'error');
+            }
 
             const grp = ev.groups[groupNum];
             let targetSlot = null;
             for (let s = 1; s <= ev.slotsCount; s++) {
                 if (!grp.slots[s].nick) { targetSlot = s; break; }
             }
-            if (!targetSlot) return showToast('Este grupo acabou de lotar!', 'error');
+            if (!targetSlot) {
+                joinBtn.disabled = false;
+                applyEventToUI(ev);
+                return showToast('Este grupo acabou de lotar!', 'error');
+            }
 
             grp.slots[targetSlot] = { nick, id: idVal };
-            saveEventsMap(map);
+            await dbSaveEvent(ev);
             document.getElementById('form-participant-join').reset();
-            loadEventData(currentEventId);
+            applyEventToUI(ev);
+            joinBtn.disabled = false;
             showToast('Inscrição realizada com sucesso!');
         }
 
         function logoutAdmin() {
             isAdminLoggedIn = false;
-            // Se estava no link de adm, remove o parâmetro adm=1 da URL sem recarregar tudo
             window.history.replaceState({}, '', `${window.location.pathname}?evento=${currentEventId}`);
             isDirectParticipantLink = true;
             loadEventData(currentEventId);
             showToast('Saiu do Modo ADM.');
         }
-        
-        function handleAdminLoginSubmit(event) {
+
+        async function handleAdminLoginSubmit(event) {
             event.preventDefault();
             const pin = document.getElementById('admin-login-pin').value.trim();
-            const map = getEventsMap();
-            const ev = map[currentEventId];
-            if (pin === ev.adminPin) {
+            const ev = await dbGetEvent(currentEventId);
+            if (ev && pin === ev.adminPin) {
                 isAdminLoggedIn = true;
                 isDirectParticipantLink = false;
                 closeAdminLoginModal();
-                loadEventData(currentEventId);
+                applyEventToUI(ev);
                 showToast('Modo ADM ativado!');
             } else { showToast('Senha incorreta!', 'error'); }
         }
@@ -828,12 +929,12 @@
         function closeAdminLoginModal() { document.getElementById('modal-admin-login').classList.add('hidden'); }
         function promptAdminAccess() { document.getElementById('admin-login-pin').value = ''; document.getElementById('modal-admin-login').classList.remove('hidden'); }
 
-        function toggleEventStatus() {
-            const map = getEventsMap();
-            const ev = map[currentEventId];
+        async function toggleEventStatus() {
+            const ev = await dbGetEvent(currentEventId);
+            if (!ev) return;
             ev.isOpen = !ev.isOpen;
-            saveEventsMap(map);
-            loadEventData(currentEventId);
+            await dbSaveEvent(ev);
+            applyEventToUI(ev);
             showToast(ev.isOpen ? 'Inscrições abertas!' : 'Inscrições encerradas.');
         }
 
@@ -844,60 +945,59 @@
         }
 
         function removePlayer(groupNum, slotNum) {
-            showConfirmModal("Remover Participante", "Deseja realmente remover este participante da vaga?", () => {
-                const map = getEventsMap();
-                const ev = map[currentEventId];
+            showConfirmModal("Remover Participante", "Deseja realmente remover este participante da vaga?", async () => {
+                const ev = await dbGetEvent(currentEventId);
+                if (!ev) return;
                 ev.groups[groupNum].slots[slotNum] = { nick: '', id: '' };
-                saveEventsMap(map);
-                loadEventData(currentEventId);
+                await dbSaveEvent(ev);
+                applyEventToUI(ev);
                 showToast('Participante removido.');
             });
         }
 
-        function handleAdminAddPlayer(event) {
+        async function handleAdminAddPlayer(event) {
             event.preventDefault();
             const nick = document.getElementById('adm-add-nick').value.trim();
             const idVal = document.getElementById('adm-add-id').value.trim();
             const groupNum = document.getElementById('adm-add-group').value;
 
-            const map = getEventsMap();
-            const ev = map[currentEventId];
+            const ev = await dbGetEvent(currentEventId);
+            if (!ev) return;
             const grp = ev.groups[groupNum];
             let targetSlot = null;
             for (let s = 1; s <= ev.slotsCount; s++) { if (!grp.slots[s].nick) { targetSlot = s; break; } }
             if (!targetSlot) return showToast('Grupo lotado!', 'error');
 
             grp.slots[targetSlot] = { nick, id: idVal };
-            saveEventsMap(map);
+            await dbSaveEvent(ev);
             document.getElementById('adm-add-nick').value = '';
             document.getElementById('adm-add-id').value = '';
-            loadEventData(currentEventId);
+            applyEventToUI(ev);
             showToast('Adicionado!');
         }
 
-        function openWhatsappExportModal() {
-            const map = getEventsMap();
-            const ev = map[currentEventId];
-            let text = `🚨NÃO MEXER NA LISTA, ESCOLHA SEU GRUPO QUE COLOCAREMOS O NOME🚨\n\n`;
-            text += `🔍✨ ${ev.title.replace(/[✨]/g, '').trim()} ✨🔍\n\n`;
+        async function openWhatsappExportModal() {
+            const ev = await dbGetEvent(currentEventId);
+            if (!ev) return;
+
+            let text = `*${ev.title}*\n\n`;
             text += `💜 Host: ${ev.host}\n`;
-            if (ev.sponsor) text += `💛 SPONSOR: ${ev.sponsor}\n`;
-            text += `\n⚠️ PODE OCORRER UM ATRASO OU ANTECIPAÇÃO DE ALGUNS MINUTOS EM CADA GRUPO, FIQUEM ATENTOS!\n\n`;
+            if (ev.sponsor) text += `💛 Sponsor: ${ev.sponsor}\n`;
+            if (ev.warningText) text += `\n${ev.warningText}\n`;
+            text += `\n`;
 
             for (let g = 1; g <= ev.groupsCount; g++) {
                 const grp = ev.groups[g];
-                text += `🕒 ${g}º GRUPO — ${grp.horario}\n\n`;
+                text += `🕒 *${g}º GRUPO — ${grp.horario}*\n`;
                 for (let s = 1; s <= ev.slotsCount; s++) {
                     const slot = grp.slots[s];
                     const playerStr = slot.nick ? `${slot.nick}${slot.id ? ` (${slot.id})` : ''}` : '';
-                    text += `🔍 ${s}️⃣ ${playerStr}\n`;
+                    text += `${s}️⃣ ${playerStr}\n`;
                 }
                 text += `\n`;
             }
-            text += `🏆✨ FINAL ✨🏆\nApós o último grupo!\n\n`;
-            text += `🔍💜 Boa sorte a todos os participantes! 💜🔍`;
 
-            document.getElementById('whatsapp-preview-text').value = text;
+            document.getElementById('whatsapp-preview-text').value = text.trim();
             document.getElementById('modal-whatsapp-export').classList.remove('hidden');
         }
 
@@ -909,12 +1009,12 @@
             closeWhatsappExportModal();
         }
 
-        function shareInviteWhatsApp() {
+        async function shareInviteWhatsApp() {
             const cleanUrl = window.location.origin + window.location.pathname;
             const url = `${cleanUrl}?evento=${currentEventId}`;
-            const map = getEventsMap();
-            const ev = map[currentEventId];
-            const msg = encodeURIComponent(`Participe do evento *${ev.title}*! Clique no link para garantir sua vaga:\n${url}`);
+            const ev = await dbGetEvent(currentEventId);
+            const title = ev ? ev.title : 'Evento';
+            const msg = encodeURIComponent(`*${title}*\n${url}`);
             window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
         }
     </script>
